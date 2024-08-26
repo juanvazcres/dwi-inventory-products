@@ -28,11 +28,10 @@ public class ProductsServiceImpl implements ProductsService {
 	private ObjectMapper objectMapper;
 
 	@Override
-	public List<Product> getProducts(String name, String country, String description, Boolean visible) {
+	public List<Product> getProducts(String title, String category, String description) {
 
-		if (StringUtils.hasLength(name) || StringUtils.hasLength(country) || StringUtils.hasLength(description)
-				|| visible != null) {
-			return repository.search(name, country, description, visible);
+		if (StringUtils.hasLength(title) || StringUtils.hasLength(category) || StringUtils.hasLength(description)) {
+			return repository.search(title, category, description);
 		}
 
 		List<Product> products = repository.getProducts();
@@ -61,12 +60,12 @@ public class ProductsServiceImpl implements ProductsService {
 	public Product createProduct(CreateProductRequest request) {
 
 		//Otra opcion: Jakarta Validation: https://www.baeldung.com/java-validation
-		if (request != null && StringUtils.hasLength(request.getName().trim())
+		if (request != null && StringUtils.hasLength(request.getTitle().trim())
 				&& StringUtils.hasLength(request.getDescription().trim())
-				&& StringUtils.hasLength(request.getCountry().trim()) && request.getVisible() != null) {
+				&& StringUtils.hasLength(request.getCategory().trim())) {
 
-			Product product = Product.builder().name(request.getName()).description(request.getDescription())
-					.country(request.getCountry()).visible(request.getVisible()).build();
+			Product product = Product.builder().title(request.getTitle()).description(request.getDescription())
+					.category(request.getCategory()).build();
 
 			return repository.save(product);
 		} else {

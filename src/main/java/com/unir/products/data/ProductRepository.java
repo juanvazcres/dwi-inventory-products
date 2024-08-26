@@ -32,23 +32,20 @@ public class ProductRepository {
         repository.delete(product);
     }
 
-    public List<Product> search(String name, String country, String description, Boolean visible) {
+    public List<Product> search(String title, String category, String description) {
         SearchCriteria<Product> spec = new SearchCriteria<>();
-        if (StringUtils.isNotBlank(name)) {
-            spec.add(new SearchStatement("name", name, SearchOperation.MATCH));
+        if (StringUtils.isNotBlank(title)) {
+            spec.add(new SearchStatement("title", title, SearchOperation.MATCH));
         }
 
-        if (StringUtils.isNotBlank(country)) {
-            spec.add(new SearchStatement("country", country, SearchOperation.EQUAL));
+        if (StringUtils.isNotBlank(category)) {
+            spec.add(new SearchStatement("category", category, SearchOperation.MATCH));
         }
 
         if (StringUtils.isNotBlank(description)) {
             spec.add(new SearchStatement("description", description, SearchOperation.MATCH));
         }
 
-        if (visible != null) {
-            spec.add(new SearchStatement("visible", visible, SearchOperation.EQUAL));
-        }
         return repository.findAll(spec);
     }
 

@@ -8,12 +8,10 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 interface ProductJpaRepository extends JpaRepository<Product, Long>, JpaSpecificationExecutor<Product> {
 
-	List<Product> findByName(String name);
+	List<Product> findByTitle(String title);
 
-	List<Product> findByCountry(String country);
+	List<Product> findByCategory(String category);
 
-	List<Product> findByVisible(Boolean visible);
-
-	List<Product> findByNameAndCountry(String name, String country);
+	List<Product> findByTitleAndCategory(String title, String category);
 
 }

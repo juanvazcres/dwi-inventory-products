@@ -9,13 +9,13 @@ import com.unir.products.model.pojo.ProductDto;
 import com.unir.products.model.request.CreateProductRequest;
 
 public interface ProductsService {
-	
-	List<Product> getProducts(String name, String country, String description, Boolean visible);
-	
+
+	List<Product> getProducts(String title, String category, String description);
+
 	Product getProduct(String productId);
-	
+
 	Boolean removeProduct(String productId);
-	
+
 	Product createProduct(CreateProductRequest request);
 
 	Product updateProduct(String productId, String updateRequest);

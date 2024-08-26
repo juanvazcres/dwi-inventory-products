@@ -33,24 +33,22 @@ public class ProductsController {
     @GetMapping("/products")
     @Operation(
             operationId = "Obtener productos",
-            description = "Operacion de lectura",
-            summary = "Se devuelve una lista de todos los productos almacenados en la base de datos.")
+            description = "Operación de lectura",
+            summary = "Devuelve una lista de todos los productos almacenados en la base de datos.")
     @ApiResponse(
             responseCode = "200",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = Product.class)))
     public ResponseEntity<List<Product>> getProducts(
             @RequestHeader Map<String, String> headers,
-            @Parameter(name = "name", description = "Nombre del producto. No tiene por que ser exacto", example = "iPhone", required = false)
-            @RequestParam(required = false) String name,
-            @Parameter(name = "country", description = "País del producto. Debe ser exacto", example = "ES", required = false)
-            @RequestParam(required = false) String country,
-            @Parameter(name = "description", description = "Descripcion del producto. No tiene por que ser exacta", example = "Estupendo", required = false)
-            @RequestParam(required = false) String description,
-            @Parameter(name = "visible", description = "Estado del producto. true o false", example = "true", required = false)
-            @RequestParam(required = false) Boolean visible) {
+            @Parameter(name = "title", description = "Título del producto. No tiene por qué ser exacto", example = "iPhone", required = false)
+            @RequestParam(required = false) String title,
+            @Parameter(name = "category", description = "Categoría del producto. Debe ser exacta", example = "Electronics", required = false)
+            @RequestParam(required = false) String category,
+            @Parameter(name = "description", description = "Descripción del producto. No tiene por qué ser exacta", example = "Estupendo", required = false)
+            @RequestParam(required = false) String description) {
 
-        log.info("headers: {}", headers);
-        List<Product> products = service.getProducts(name, country, description, visible);
+        log.info("Headers: {}", headers);
+        List<Product> products = service.getProducts(title, category, description);
 
         if (products != null) {
             return ResponseEntity.ok(products);
@@ -62,8 +60,8 @@ public class ProductsController {
     @GetMapping("/products/{productId}")
     @Operation(
             operationId = "Obtener un producto",
-            description = "Operacion de lectura",
-            summary = "Se devuelve un producto a partir de su identificador.")
+            description = "Operación de lectura",
+            summary = "Devuelve un producto a partir de su identificador.")
     @ApiResponse(
             responseCode = "200",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = Product.class)))
@@ -87,8 +85,8 @@ public class ProductsController {
     @DeleteMapping("/products/{productId}")
     @Operation(
             operationId = "Eliminar un producto",
-            description = "Operacion de escritura",
-            summary = "Se elimina un producto a partir de su identificador.")
+            description = "Operación de escritura",
+            summary = "Elimina un producto a partir de su identificador.")
     @ApiResponse(
             responseCode = "200",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = Void.class)))
@@ -111,8 +109,8 @@ public class ProductsController {
     @PostMapping("/products")
     @Operation(
             operationId = "Insertar un producto",
-            description = "Operacion de escritura",
-            summary = "Se crea un producto a partir de sus datos.",
+            description = "Operación de escritura",
+            summary = "Crea un producto a partir de sus datos.",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "Datos del producto a crear.",
                     required = true,
@@ -139,14 +137,13 @@ public class ProductsController {
         }
     }
 
-
     @PatchMapping("/products/{productId}")
     @Operation(
             operationId = "Modificar parcialmente un producto",
-            description = "RFC 7386. Operacion de escritura",
-            summary = "RFC 7386. Se modifica parcialmente un producto.",
+            description = "RFC 7386. Operación de escritura",
+            summary = "RFC 7386. Modifica parcialmente un producto.",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    description = "Datos del producto a crear.",
+                    description = "Datos del producto a modificar.",
                     required = true,
                     content = @Content(mediaType = "application/merge-patch+json", schema = @Schema(implementation = String.class))))
     @ApiResponse(
@@ -166,12 +163,11 @@ public class ProductsController {
         }
     }
 
-
     @PutMapping("/products/{productId}")
     @Operation(
             operationId = "Modificar totalmente un producto",
-            description = "Operacion de escritura",
-            summary = "Se modifica totalmente un producto.",
+            description = "Operación de escritura",
+            summary = "Modifica totalmente un producto.",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "Datos del producto a actualizar.",
                     required = true,

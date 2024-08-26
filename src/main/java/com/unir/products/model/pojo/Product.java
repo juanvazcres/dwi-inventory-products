@@ -22,28 +22,32 @@ import lombok.ToString;
 @Builder
 @ToString
 public class Product {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	@Column(name = "name", unique = true)
-	private String name;
-	
-	@Column(name = "country")
-	private String country;
-	
+
+	@Column(name = "title", unique = true)
+	private String title;
+
+	@Column(name = "price")
+	private Double price;
+
 	@Column(name = "description")
 	private String description;
-	
-	@Column(name = "visible")
-	private Boolean visible;
+
+	@Column(name = "category")
+	private String category;
+
+	@Column(name = "image")
+	private String image;
 
 	public void update(ProductDto productDto) {
-		this.name = productDto.getName();
-		this.country = productDto.getCountry();
+		this.title = productDto.getTitle();
+		this.price = productDto.getPrice();
 		this.description = productDto.getDescription();
-		this.visible = productDto.getVisible();
+		this.category = productDto.getCategory();
+		this.image = productDto.getImage();
 	}
 
 }
